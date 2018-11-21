@@ -6,7 +6,10 @@ class Message extends Base {
     super(client);
     Object.assign(this, {
       ...message,
-      channel: new TextChannel(client, message.channel)
+      channel: new TextChannel(client, message.channel),
+      args: message.text
+        .slice(client.prefix.length).trim()
+        .split(/ +/g)
     });
   }
 }

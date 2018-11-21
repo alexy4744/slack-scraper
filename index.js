@@ -1,4 +1,4 @@
-require("./structures/Bot").start();
+require("./structures/Client").start();
 
 process.on("uncaughtException", error => console.error(error));
 process.on("unhandledRejection", (...args) => console.error(...args));
