@@ -7,6 +7,10 @@ class JSONDatabase extends Base {
     this.client = client;
     this.teams = options.filenames.teams || "teams";
     this.users = options.filenames.users || "users";
+    this.cache = {
+      [this.teams]: new Map(),
+      [this.users]: new Map()
+    };
   }
 
   async write(key, value, where) {
@@ -29,7 +33,20 @@ class JSONDatabase extends Base {
     if (!this.utils.isString(where)) return Promise.reject(new Error(`'where' must be valid database name string`));
 
     try {
+      const json = this.cache[where].get(key) || await this.fetch(key, where);
+      return Promise.resolve(json);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async fetch(key, where) {
+    if (!this.utils.isNumber(key) || !this.utils.isString(key)) return Promise.reject(new Error(`'key' needs to be a string or number, but received ${typeof key}`));
+    if (!this.utils.isString(where)) return Promise.reject(new Error(`'where' must be valid database name string`));
+
+    try {
       const json = await fs.readJSON(`../database/${where}`).then(data => data[key]);
+      if (json) this.cache[where].set(key, json);
       return Promise.resolve(json);
     } catch (error) {
       return Promise.reject(error);

@@ -1,6 +1,7 @@
 const Task = require("../structures/Task");
+const { scrape } = require("../structures/Util");
 
-class ScrapeAssignments extends Task {
+class Scrape extends Task {
   constructor(...args) {
     super(...args, {
       interval: 15
@@ -19,4 +20,4 @@ class ScrapeAssignments extends Task {
   }
 }
 
-module.exports = ScrapeAssignments;
+module.exports = Scrape;
