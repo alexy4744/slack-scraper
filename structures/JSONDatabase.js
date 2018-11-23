@@ -7,8 +7,7 @@ class JSONDatabase extends Base {
     this.initalized = false;
     this.settings = options.filenames && options.filenames.teams ? options.filenames.teams : "settings";
     this.cache = {
-      [this.teams]: new Map(),
-      [this.users]: new Map()
+      [this.settings]: new Map()
     };
   }
 

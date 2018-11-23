@@ -10,10 +10,10 @@ class Ping extends Command {
 
     try {
       message = await msg.channel.send(`Checking my latency...`);
-      const latency = Date.now() - this.utils.toDate(message.ts).getMilliseconds();
-      return message.edit(`Latency: ${latency}`);
+      const latency = Math.round(Date.now() - (message.ts * 1000));
+      return message.edit(`Latency: ${latency} ms`);
     } catch (error) {
-      await message.delete().catch(() => { });
+      if (message) await message.delete().catch(() => { });
       return msg.channel.send(`An error has occured...\n\`\`\`\n${error}\n\`\`\``).catch(() => { });
     }
   }

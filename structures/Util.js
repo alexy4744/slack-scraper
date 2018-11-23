@@ -16,14 +16,13 @@ class Util {
     return false;
   }
 
-  static toDate(utc) {
-    return new Date(utc * 1000);
-  }
-
   /* If the message was sent by the API, rebuild the object to that it is similar to the object payload sent by RTM. */
   static normalizeMessage(rawMessage) {
     if (!rawMessage.message) return rawMessage;
-    return rawMessage.message;
+    return {
+      channel: rawMessage.channel,
+      ...rawMessage.message
+    };
   }
 
   static async scrape() {
