@@ -7,10 +7,10 @@ module.exports = async client => {
   for (let event of events) {
     event = event.slice(0, -3);
 
-    client.events[event] = require(`../events/${event}`);
-    client.rtm.on(event, (...args) => {
-      if (!(typeof client.events[event] === "function")) return;
-      client.events[event](...args, client); // Run the event with the given arguments as parameters
-    });
+    try {
+      client.events.listen(event);
+    } catch (_) {
+      continue;
+    }
   }
 };

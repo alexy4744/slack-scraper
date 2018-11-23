@@ -1,14 +1,34 @@
-const Message = require("../structures/Message");
+const Event = require("../structures/Base/Event");
+const Message = require("../structures/Base/Message");
 
-module.exports = (msg, client) => {
-  if (msg.subtype === "message_changed") return;
+class OnMessage extends Event {
+  constructor(...args) {
+    super(...args);
+  }
 
-  msg = new Message(client, msg);
+  async run(msg) {
+    if (msg.subtype === "message_changed") return this.client.rtm.emit("messageUpdated", msg);
 
-  if (!msg.text.startsWith(client.prefix)) return;
+    msg = this.utils.normalizeMessage(msg);
 
-  const command = msg.args.shift().toLowerCase(); // Shift the arguments so that it removes the command names, leaving only the command arguments
-  if (!client.commands[command]) return; // If it isn't a valid command
+    const user = await this.client.users.fetch(msg.user).catch(error => ({ error }));
+    if (user.error) return;
+    const channel = await this.client.channels.fetch(msg.channel).catch(error => ({ error }));
+    if (channel.error) return;
 
-  return client.commands[command](msg);
-};
+    msg = new Message(this.client, msg, channel, user);
+
+    if (!msg.text.startsWith(this.client.prefix)) return;
+
+    const args = msg.text
+      .slice(this.client.prefix.length)
+      .trim()
+      .split(/ +/g);
+    const command = args.shift().toLowerCase(); // Shift the arguments so that it removes the command name, leaving only the command arguments
+
+    if (this.client.commands.has(command)) return this.client.commands.get(command)._run(msg, args);
+    else if (this.client.aliases.has(command)) return this.client.commands.get(this.client.aliases.get(command))._run(msg, args);
+  }
+}
+
+module.exports = OnMessage;

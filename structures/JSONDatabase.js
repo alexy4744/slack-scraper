@@ -1,12 +1,11 @@
-const Base = require("./Base");
+const Base = require("./Base/Base");
 const fs = require("fs-nextra");
 
 class JSONDatabase extends Base {
   constructor(client, options = {}) {
     super(client);
     this.initalized = false;
-    this.teams = options.filenames && options.filenames.teams ? options.filenames.teams : "teams";
-    this.users = options.filenames && options.filenames.users ? options.filenames.users : "users";
+    this.settings = options.filenames && options.filenames.teams ? options.filenames.teams : "settings";
     this.cache = {
       [this.teams]: new Map(),
       [this.users]: new Map()

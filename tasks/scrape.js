@@ -1,4 +1,4 @@
-const Task = require("../structures/Task");
+const Task = require("../structures/Base/Task");
 const { scrape } = require("../structures/Util");
 
 class Scrape extends Task {

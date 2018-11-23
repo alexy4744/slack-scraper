@@ -1,0 +1,19 @@
+{
+  "name": "slack-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --inspect ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexy4744/slack-scraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexy4744/slack-scraper/issues"
+  },
+  "homepage": "https://github.com/alexy4744/slack-scraper#readme"
+}

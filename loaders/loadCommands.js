@@ -5,7 +5,12 @@ module.exports = async client => {
   if (commands.error) throw commands.error;
 
   for (let command of commands) {
-    command = command.slice(0, -3);
-    client.commands[command] = require(`../commands/${command}`);
+    command = client.commands.resolve(command);
+
+    client.commands.add(command.name, command);
+
+    if (command.aliases.length) {
+      for (const alias of command.aliases) client.aliases.link(alias, command.name);
+    }
   }
 };

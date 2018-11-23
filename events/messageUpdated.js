@@ -1,13 +1,13 @@
 const Event = require("../structures/Base/Event");
 
-class OnError extends Event {
+class OnMessageUpdate extends Event {
   constructor(...args) {
     super(...args);
   }
 
-  run(error) {
-    return console.error(error);
+  run() {
+
   }
 }
 
-module.exports = OnError;
+module.exports = OnMessageUpdate;

@@ -1,4 +1,4 @@
-module.exports = class Util {
+class Util {
   constructor() {
     throw new Error("Cannot create new instance for Util");
   }
@@ -16,7 +16,19 @@ module.exports = class Util {
     return false;
   }
 
+  static toDate(utc) {
+    return new Date(utc * 1000);
+  }
+
+  /* If the message was sent by the API, rebuild the object to that it is similar to the object payload sent by RTM. */
+  static normalizeMessage(rawMessage) {
+    if (!rawMessage.message) return rawMessage;
+    return rawMessage.message;
+  }
+
   static async scrape() {
 
   }
-};
+}
+
+module.exports = Util;
