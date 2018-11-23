@@ -13,6 +13,24 @@ class Command extends Base {
     this.botPermissions = options.botPermissions || 0;
   }
 
+  reload() {
+    try {
+      delete require.cache[require.resolve(`../../commands/${this.name}`)];
+
+      this.client.aliases.unlink(this.aliases, true);
+      this.client.commands.remove(this.name);
+
+      const command = this.client.commands.resolve(this.name);
+      this.client.commands.add(command.name, command);
+
+      for (const alias of command.aliases) this.client.aliases.link(alias, command);
+
+      return this.client.commands.get(this.name);
+    } catch (error) {
+      return Promise.resolve(error);
+    }
+  }
+
   run() {
     throw new Error(`Run method not found for ${this.name}!`);
   }
