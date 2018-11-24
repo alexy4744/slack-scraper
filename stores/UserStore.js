@@ -8,13 +8,13 @@ class UserStore extends Store {
   }
 
   /* Gets the user from its cache, otherwise, fetch it from API and save it to cache */
-  async fetch(id) {
+  async fetch(id, team) {
     if (this.has(id)) return Promise.resolve(this.get(id));
 
     const user = await this.resolve(id).catch(error => ({ error }));
     if (user.error) return Promise.reject(user.error);
 
-    this.add(user.id, new User(this.client, user));
+    this.add(user.id, new User(this.client, user, team));
 
     return Promise.resolve(user);
   }

@@ -2,11 +2,12 @@ const Base = require("./Base");
 const { messageOptions } = require("../Constants");
 
 class Message extends Base {
-  constructor(client, message, channel, user) {
+  constructor(client, message, channel, team, user) {
     super(client);
     Object.assign(this, this.utils.normalizeMessage(message));
 
     this.channel = channel;
+    this.team = team;
     this.user = user;
   }
 

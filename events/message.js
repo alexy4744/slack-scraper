@@ -11,12 +11,14 @@ class OnMessage extends Event {
 
     msg = this.utils.normalizeMessage(msg);
 
-    const user = await this.client.users.fetch(msg.user).catch(error => ({ error }));
-    if (user.error) return;
-    const channel = await this.client.channels.fetch(msg.channel).catch(error => ({ error }));
+    const team = await this.client.teams.fetch().catch(error => ({ error }));
+    if (team.error) return;
+    const channel = await this.client.channels.fetch(msg.channel, team).catch(error => ({ error }));
     if (channel.error) return;
+    const user = await this.client.users.fetch(msg.user, team).catch(error => ({ error }));
+    if (user.error) return;
 
-    msg = new Message(this.client, msg, channel, user);
+    msg = new Message(this.client, msg, channel, team, user);
 
     if (!msg.text.startsWith(this.client.prefix)) return;
 

@@ -4,10 +4,11 @@ const Store = require("../../stores/Store");
 const { messageOptions } = require("../Constants");
 
 class Channel extends Base {
-  constructor(client, channel) {
+  constructor(client, channel, team) {
     super(client);
     Object.assign(this, channel);
 
+    this.team = team;
     this.messages = new Store(client);
   }
 

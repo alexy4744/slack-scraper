@@ -2,9 +2,11 @@ const Base = require("./Base");
 const Permissions = require("./Permissions");
 
 class User extends Base {
-  constructor(client, user) {
+  constructor(client, user, team) {
     super(client);
-    Object.assign(this, { ...user });
+    Object.assign(this, user);
+
+    this.team = team;
   }
 
   get permissions() {

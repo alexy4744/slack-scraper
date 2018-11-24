@@ -6,7 +6,8 @@ class OnReady extends Event {
   }
 
   run() {
-    return console.log("Bot is now ready!");
+    console.log("Bot is now ready!");
+    console.log(`Startup took ${this.client.startupTime.toString()}`);
   }
 }
 
