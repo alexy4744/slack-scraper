@@ -1,2 +1,4 @@
 process.env
 .eslintrc.json
+certs/
+node_modules/

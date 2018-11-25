@@ -1,4 +1,4 @@
-const Store = require("./Store");
+const Store = require("../structures/Store");
 const fs = require("fs-nextra");
 
 class CommandStore extends Store {
@@ -10,22 +10,10 @@ class CommandStore extends Store {
     try {
       for (const command of this.client.commands) {
         delete require.cache[require.resolve(`../commands/${command[0]}`)];
-
-        if (command[1].aliases.length) this.client.aliases.unlink(command[1].aliases, true);
-        this.client.commands.remove(command[0]);
+        this.remove(command[0]);
       }
 
-      const allCommands = await fs.readdir("./commands").catch(error => ({ error }));
-      if (allCommands.error) return Promise.reject(allCommands.error);
-
-      for (let newCommand of allCommands) {
-        newCommand = this.resolve(newCommand);
-        this.add(newCommand.name, newCommand);
-
-        for (const alias of newCommand.aliases) {
-          this.client.aliases.link(alias, newCommand.name);
-        }
-      }
+      await this.loadAll();
 
       return Promise.resolve(this);
     } catch (error) {
@@ -33,8 +21,19 @@ class CommandStore extends Store {
     }
   }
 
-  resolve(command) {
-    return new (require(`../commands/${command}`))(this.client);
+  async loadAll() {
+    const commands = await fs
+      .readdir("./commands")
+      .then(cmds => cmds.map(cmd => this.resolve(cmd)))
+      .catch(error => ({ error }));
+    if (commands.error) return Promise.reject(commands.error);
+
+    for (const command of commands) this.add(command.name, command);
+    return Promise.resolve(this);
+  }
+
+  resolve(name) {
+    return new (require(`../commands/${name}`))(this.client);
   }
 }
 

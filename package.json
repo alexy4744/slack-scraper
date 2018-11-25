@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --inspect ."
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/alexy4744/slack-scraper/issues"
   },
-  "homepage": "https://github.com/alexy4744/slack-scraper#readme"
+  "homepage": "https://github.com/alexy4744/slack-scraper#readme",
+  "dependencies": {
+    "@slack/client": "^4.8.0",
+    "dotenv": "^6.1.0",
+    "fs-nextra": "^0.3.7",
+    "koa": "^2.6.2"
+  }
 }
