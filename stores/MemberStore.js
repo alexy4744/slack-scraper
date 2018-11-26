@@ -17,7 +17,7 @@ class MemberStore extends Store {
 
   /* Resolves the member from the API and updates the cache */
   async resolve(id) {
-    const user = await this.client.users
+    const user = await this.client.web.users
       .info({ user: id })
       .then(res => new Member(this.client, res.user))
       .catch(error => ({ error }));

@@ -20,6 +20,7 @@
     "@slack/client": "^4.8.0",
     "dotenv": "^6.1.0",
     "fs-nextra": "^0.3.7",
-    "koa": "^2.6.2"
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1"
   }
 }

@@ -11,27 +11,25 @@ class Command {
     throw new Error(`No run method found for ${this.name}!`);
   }
 
-  _run(ctx, next) {
-    // return ctx.body = "AYYY"
-    // return next();
-    // ctx.response.status = 200;
-    ctx.body = {
-      "text": "It's 80 degrees right now.",
-      "attachments": [
-        {
-          "text": "Partly cloudy today and tomorrow"
-        }
-      ]
+  async _run(ctx) {
+    try {
+      const { user_id } = ctx.request.body; // eslint-disable-line
+      ctx.request.body.user = await this.client.members.fetch(user_id);
+      if (!this._runInhibitors(ctx)) return;
+      return this.run(ctx);
+    } catch (error) {
+      return ctx.response.status = 500;
     }
-    if (!this._runInhibitors(ctx)) return;
-    return this.run(ctx, next);
   }
 
   _runInhibitors(ctx) {
+    const { command } = ctx.request.body;
+    const cmd = this.client.commands.get(command.slice(1));
+
     let passed = 0;
 
     for (const inhibitor of this.client.inhibitors) {
-      if (inhibitor[1].run(ctx)) passed++;
+      if (inhibitor[1].run(ctx, cmd)) passed++;
     }
 
     return passed > 0 ? true : false;

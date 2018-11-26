@@ -5,8 +5,10 @@ class Ping extends Command {
     super(...args);
   }
 
-  async run(msg, args) {
-
+  run(ctx) {
+    ctx.body = {
+      "text": "yooo"
+    };
   }
 }
 

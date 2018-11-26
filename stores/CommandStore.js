@@ -28,7 +28,7 @@ class CommandStore extends Store {
       .catch(error => ({ error }));
     if (commands.error) return Promise.reject(commands.error);
 
-    for (const command of commands) this.add(command.name, command);
+    for (const command of commands) this.add(command.name.toLowerCase(), command);
     return Promise.resolve(this);
   }
 

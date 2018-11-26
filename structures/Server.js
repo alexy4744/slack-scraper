@@ -5,8 +5,9 @@ const http = require("http");
 const https = require("https");
 
 const Koa = require("koa");
+const bodyParser = require("koa-bodyparser");
 
-class SlashServer extends Koa {
+class Server extends Koa {
   constructor(client, options = {}) {
     super();
     this.client = client;
@@ -17,6 +18,7 @@ class SlashServer extends Koa {
   }
 
   _initalize() {
+    this.use(bodyParser());
     this._loadAllRoutes();
 
     http.createServer(this.callback()).listen(this.ports.http, () => console.log(`Server started on port ${this.ports.http} (HTTP)`));
@@ -26,17 +28,12 @@ class SlashServer extends Koa {
     }
   }
 
-  /* Commands are essentially routes */
   _loadAllRoutes() {
+    /* For each command loaded, create a Koa middleware out of it */
     for (const command of this.client.commands) {
-      this.use((ctx, next) => {
-        if (ctx.request.method !== "POST") return; // Slack only sends POST request to run slash commands
-        const paths = ctx.request.path.split("/").slice(1);
-        if (paths[0] !== "commands") return;
-        return command[1]._run(ctx, next);
-      });
+      this.use(ctx => command[1]._run(ctx));
     }
   }
 }
 
-module.exports = SlashServer;
+module.exports = Server;

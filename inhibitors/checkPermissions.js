@@ -5,7 +5,14 @@ class CheckPermissions extends Inhibitor {
     super(...args);
   }
 
-  run(ctx) {
+  run(ctx, cmd) {
+    const { user } = ctx.request.body;
+
+    if (user.permissions.highest < cmd.permissions) {
+      ctx.body = { "text": "You do not have the permissions to run this command!" };
+      return false;
+    }
+
     return true;
   }
 }

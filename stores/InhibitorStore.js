@@ -13,8 +13,12 @@ class InhibitorStore extends Store {
       .catch(error => ({ error }));
     if (inhibitors.error) return Promise.reject(inhibitors.error);
 
-    for (const inhibitor of inhibitors) this.add(inhibitor.name, inhibitor);
+    for (const inhibitor of inhibitors) this.add(inhibitor.name.toLowerCase(), inhibitor);
     return Promise.resolve(this);
+  }
+
+  resolve(name) {
+    return new (require(`../inhibitors/${name}`))(this.client);
   }
 }
 
