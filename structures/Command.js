@@ -21,7 +21,7 @@ class Command {
       const args = ctx.request.body.text.split(" ");
       return this.run(ctx, args);
     } catch (error) {
-      return ctx.body = new RichMessage()
+      ctx.body = new RichMessage()
         .setTitle(`❌ ｜ Sorry, an error has occurred!`)
         .setText(`\`\`\`\n${error.message}\n\`\`\``)
         .setColor(this.client.colors.fail)

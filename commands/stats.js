@@ -9,7 +9,7 @@ class Stats extends Command {
   }
 
   run(ctx) {
-    return ctx.body = new RichMessage()
+    ctx.body = new RichMessage()
       .setColor(this.client.colors.primary)
       .setTitle("🖥 ｜ Statistics")
       .setText(normalizeSpaces(`

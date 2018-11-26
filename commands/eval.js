@@ -30,17 +30,19 @@ class Eval extends Command {
       evaled = evaled.replace(this.client.token, "--redacted--");
 
       if (evaled.length < 40000) {
-        return ctx.body = {
-          "text": `Input\n\`\`\`${code}\n\`\`\`\nOutput\n\`\`\`${evaled}\n\`\`\``
+        ctx.body = {
+          text: `Input\n\`\`\`${code}\n\`\`\`\nOutput\n\`\`\`${evaled}\n\`\`\``
         };
+
+        return;
       }
 
       const url = await superagent.post(`https://hastebin.com/documents`).send(evaled).then(res => res.body.key);
-      return ctx.body = {
+      ctx.body = {
         "text": `Result was over 40,000 characters, output uploaded to hastebin!\n\n${url}`
       };
     } catch (error) {
-      return ctx.body = {
+      ctx.body = {
         "text": `Error!\n\`\`\`\n${error.stack}\n\`\`\``
       };
     }

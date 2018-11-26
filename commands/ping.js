@@ -7,7 +7,7 @@ class Ping extends Command {
   }
 
   run(ctx) {
-    return ctx.body = new RichMessage()
+    ctx.body = new RichMessage()
       .setTitle(`🏓 ｜ Pong!`)
       .setText(`I'm alive!`)
       .setColor(this.client.colors.primary)
