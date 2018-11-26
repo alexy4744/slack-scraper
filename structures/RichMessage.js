@@ -1,4 +1,5 @@
 /* A class to construct a fancy message easily with chainable methods */
+// https://api.slack.com/docs/message-attachments
 
 class RichMessage {
   constructor() {

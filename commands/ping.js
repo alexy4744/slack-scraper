@@ -1,4 +1,5 @@
 const Command = require("../structures/Command");
+const RichMessage = require("../structures/RichMessage");
 
 class Ping extends Command {
   constructor(...args) {
@@ -6,9 +7,11 @@ class Ping extends Command {
   }
 
   run(ctx) {
-    ctx.body = {
-      "text": "yooo"
-    };
+    return ctx.body = new RichMessage()
+      .setTitle(`🏓 ｜ Pong!`)
+      .setText(`I'm alive!`)
+      .setColor(this.client.colors.primary)
+      .message;
   }
 }
 

@@ -23,6 +23,12 @@ class Client {
       filepath: "../database/settings.json"
     });
 
+    this.colors = { // Colors used in rich messages
+      primary: "#5089DB",
+      success: "#76B354",
+      fail: "#DE2E43"
+    };
+
     this.commands = new CommandStore(this);
     this.events = new EventStore(this);
     this.inhibitors = new InhibitorStore(this);

@@ -1,3 +1,5 @@
+const RichMessage = require("./RichMessage");
+
 class Command {
   constructor(client, options = {}) {
     this.name = options.name || this.constructor.name || null;
@@ -18,8 +20,11 @@ class Command {
       if (!this._runInhibitors(ctx)) return;
       return this.run(ctx);
     } catch (error) {
-      console.log(error)
-      return ctx.response.status = 500;
+      return ctx.body = new RichMessage()
+        .setTitle(`❌ ｜ Sorry, an error has occurred!`)
+        .setText(`\`\`\`\n${error.message}\n\`\`\``)
+        .setColor(this.client.colors.fail)
+        .message;
     }
   }
 

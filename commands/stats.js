@@ -9,15 +9,14 @@ class Stats extends Command {
   }
 
   run(ctx) {
-    const message = new RichMessage()
-      .setColor("#5089db")
+    return ctx.body = new RichMessage()
+      .setColor(this.client.colors.primary)
       .setTitle("🖥 ｜ Statistics")
       .setText(normalizeSpaces(`
         Memory Usage: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${os.totalmem} MB*\n
         Free Memory: *${os.freemem} MB*\n
-        Platform: \`${os.platform}\``));
-
-    ctx.body = message.message;
+        Platform: \`${os.platform}\``))
+      .message;
   }
 }
 
