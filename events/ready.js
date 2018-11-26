@@ -1,14 +1,14 @@
-const Event = require("../structures/Base/Event");
+const Event = require("../structures/Event");
 
-class OnReady extends Event {
+module.exports = class extends Event {
   constructor(...args) {
-    super(...args);
+    super(...args, {
+      name: "ready"
+    });
   }
 
-  run() {
+  listen() {
     console.log("Bot is now ready!");
     console.log(`Startup took ${this.client.startupTime.toString()}`);
   }
-}
-
-module.exports = OnReady;
+};

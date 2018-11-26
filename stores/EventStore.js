@@ -1,31 +1,28 @@
-const Store = require("./Store");
-const Event = require("../structures/Base/Event");
+const Store = require("../structures/Store");
+const fs = require("fs-nextra");
 
 class EventStore extends Store {
   constructor(...args) {
     super(...args);
   }
 
-  listen(name) {
-    if (this.has(name)) return Promise.resolve(this);
+  async listenAll() {
+    const events = await fs
+      .readdir("./events")
+      .then(e => e.map(event => this.resolve(event)))
+      .catch(error => ({ error }));
+    if (events.error) return Promise.reject(events.error);
 
-    const event = this.resolve(name);
-
-    this.remove(name);
-    this.add(name, event);
-    this.client.rtm.on(name, (...args) => this.get(name).run(...args));
+    for (const event of events) {
+      this.add(event.name, event);
+      this.client.rtm.on(event.name, (...args) => event.listen(...args));
+    }
 
     return Promise.resolve(this);
   }
 
   resolve(name) {
-    let ResolvedEvent = require(`../events/${name}`);
-    if (!ResolvedEvent.constructor) throw new Error(`${name} has no constructor!`);
-
-    ResolvedEvent = new ResolvedEvent(this.client);
-    if (!(ResolvedEvent instanceof Event)) throw new Error(`${name} is not an instance of Event!`);
-
-    return ResolvedEvent;
+    return new (require(`../events/${name}`))(this.client);
   }
 }
 

@@ -1,17 +1,16 @@
-const Event = require("../structures/Base/Event");
-const User = require("../structures/Base/User");
 
-class OnUserChange extends Event {
+const Event = require("../structures/Event");
+const Member = require("../structures/Member");
+
+module.exports = class extends Event {
   constructor(...args) {
-    super(...args);
+    super(...args, {
+      name: "user_change"
+    });
   }
 
-  run(user) {
-    user = user.user;
-
-    if (user.id === this.client.owner) user.bot_owner = true; // eslint-disable-line
-    this.client.users.set(user.id, new User(this.client, user, this.client.teams.get(user.team_id)));
+  listen(payload) {
+    const member = new Member(payload.user);
+    return this.client.members.set(member.id, member);
   }
-}
-
-module.exports = OnUserChange;
+};

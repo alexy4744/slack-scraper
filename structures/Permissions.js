@@ -1,9 +1,9 @@
-const { permissions } = require("../Constants");
+const { permissions } = require("./Constants");
 
 class Permissions {
-  constructor(user) {
-    this.user = user;
-    this._permissions = this._filterUserObject();
+  constructor(member) {
+    this.member = member;
+    this._permissions = this._filterMemberObject();
   }
 
   static get CONSTANTS() {
@@ -30,18 +30,12 @@ class Permissions {
     return highest;
   }
 
-  /* Convert strings to numbers for perms */
-  normalize(input) {
-    if (!this.utils.isString(input)) return null;
-    if (permissions[input]) return permissions[input];
-  }
-
-  _filterUserObject() {
+  _filterMemberObject() {
     const desiredFields = Object.keys(permissions);
     const result = {};
 
-    for (const field in this.user) {
-      if (desiredFields.includes(field)) result[field] = this.user[field];
+    for (const field in this.member) {
+      if (desiredFields.includes(field)) result[field] = this.member[field];
     }
 
     return result;
