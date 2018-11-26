@@ -23,10 +23,24 @@ class JSONDatabase {
   }
 
   /* Fetch from the database and also saves it as cache */
-  fetch() {
-    const data = require(this.filepath);
+  async fetch() {
+    const data = await fs.readJSON(this.filepath).catch(error => ({ error }));
+    if (data.error) return Promise.reject(data.error);
     this.cache = data;
-    return data;
+    return Promise.resolve(data);
+  }
+
+  async update(what) {
+    if (!isObject(what)) return Promise.reject(new Error(`Objects can only be written to JSON files!`));
+
+    try {
+      let data = await this.fetch();
+      data = { ...data, ...what };
+      await this.write(data);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 }
 
