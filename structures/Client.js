@@ -33,16 +33,16 @@ class Client {
       const self = new Client(options); // eslint-disable-line
       const startupTime = new Stopwatch();
 
+      await self.commands.loadAll();
+      await self.events.listenAll();
+      await self.inhibitors.loadAll();
+      await self.rtm.start();
+
       self.server = new Server(self, {
         ports: {
           http: 80
         }
       });
-
-      await self.commands.loadAll();
-      await self.events.listenAll();
-      await self.inhibitors.loadAll();
-      await self.rtm.start();
 
       self.startupTime = startupTime.stop().duration;
 

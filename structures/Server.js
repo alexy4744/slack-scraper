@@ -1,11 +1,13 @@
-
 /* A Koa server to handle incoming slash commands */
 
 const http = require("http");
 const https = require("https");
 
 const Koa = require("koa");
+const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
+
+const commands = new Router();
 
 class Server extends Koa {
   constructor(client, options = {}) {
@@ -20,6 +22,7 @@ class Server extends Koa {
   _initalize() {
     this.use(bodyParser());
     this._loadAllRoutes();
+    this.use(commands.routes());
 
     http.createServer(this.callback()).listen(this.ports.http, () => console.log(`Server started on port ${this.ports.http} (HTTP)`));
 
@@ -31,7 +34,7 @@ class Server extends Koa {
   _loadAllRoutes() {
     /* For each command loaded, create a Koa middleware out of it */
     for (const command of this.client.commands) {
-      this.use(ctx => command[1]._run(ctx));
+      commands.post(`/commands/${command[0]}`, ctx => command[1]._run(ctx));
     }
   }
 }
