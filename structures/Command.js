@@ -18,6 +18,7 @@ class Command {
       if (!this._runInhibitors(ctx)) return;
       return this.run(ctx);
     } catch (error) {
+      console.log(error)
       return ctx.response.status = 500;
     }
   }
