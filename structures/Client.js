@@ -15,6 +15,7 @@ class Client {
     if (!options.token) throw new Error(`You must pass in a token via the options object in the Client constructor!`);
 
     this.token = options.token;
+    this.owner = options.owner;
 
     this.web = new WebClient(this.token);
     this.rtm = new RTMClient(this.token);

@@ -18,7 +18,8 @@ class Command {
       const { user_id } = ctx.request.body; // eslint-disable-line
       ctx.request.body.user = await this.client.members.fetch(user_id);
       if (!this._runInhibitors(ctx)) return;
-      return this.run(ctx);
+      const args = ctx.request.body.text.split(" ");
+      return this.run(ctx, args);
     } catch (error) {
       return ctx.body = new RichMessage()
         .setTitle(`❌ ｜ Sorry, an error has occurred!`)

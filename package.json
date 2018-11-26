@@ -18,11 +18,13 @@
   "homepage": "https://github.com/alexy4744/slack-scraper#readme",
   "dependencies": {
     "@slack/client": "^4.8.0",
+    "cheerio": "^1.0.0-rc.2",
     "dotenv": "^6.1.0",
     "fs-nextra": "^0.3.7",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
-    "os-utils": "github:alexy4744/os-utils"
+    "os-utils": "github:alexy4744/os-utils",
+    "superagent": "^4.0.0"
   }
 }
