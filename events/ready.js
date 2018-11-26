@@ -8,7 +8,7 @@ module.exports = class extends Event {
   }
 
   listen() {
-    console.log("Bot is now ready!");
-    console.log(`Startup took ${this.client.startupTime.toString()}`);
+    console.log(`⏱  Startup took \x1b[34m${this.client.startupTime.toString()}\x1b[0m`);
+    console.log("🚀  Bot is now \x1b[32mready!\x1b[32m");
   }
 };

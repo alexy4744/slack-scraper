@@ -45,7 +45,7 @@ class Client {
         }
       });
 
-      self.startupTime = startupTime.stop().duration;
+      self.startupTime = startupTime.stop();
 
       return self;
     } catch (error) {
