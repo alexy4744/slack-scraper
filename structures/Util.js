@@ -55,13 +55,11 @@ class Util {
 
     for (let i = 0; i < t.length; i++) {
       if (!isNaN(t[i])) {
-        if (!isNaN(t[i + 1])) {
-          throw new Error("Invalid time format");
-        } else {
-          for (const unit in units) { // eslint-disable-line
-            for (const abbrev of units[unit].abbreviations) {
-              if (abbrev === t[i + 1]) ms += t[i] * units[unit].value;
-            }
+        if (!isNaN(t[i + 1])) return null;
+
+        for (const unit in units) { // eslint-disable-line
+          for (const abbrev of units[unit].abbreviations) {
+            if (abbrev === t[i + 1]) ms += t[i] * units[unit].value;
           }
         }
       }

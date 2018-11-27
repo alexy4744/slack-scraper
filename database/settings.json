@@ -5,6 +5,10 @@
         "url": "reddit.com",
         "cssSelector": "#app",
         "frequency": "15m"
+      },
+      {
+        "url": "reddit.com",
+        "cssSelector": "#app"
       }
     ]
   }

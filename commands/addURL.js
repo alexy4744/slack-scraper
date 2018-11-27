@@ -34,9 +34,9 @@ class AddURL extends Command {
 
     const url = args[0];
     const cssSelector = args[1];
-    const frequency = args[2];
+    const frequency = stringToMillis(args[2]);
 
-    if (!url || !cssSelector) {
+    if (!url || !cssSelector || !frequency) {
       ctx.body = new RichMessage()
         .setTitle(`${this.client.emojis.fail}Insufficient arguments provided!`)
         .setText(`You must provide a URL, CSS selector and frequency in sequential order!`)
@@ -65,7 +65,7 @@ class AddURL extends Command {
 
     ctx.body = new RichMessage()
       .setTitle(`${this.client.emojis.success}I have added a new URL to scrape!`)
-      .setText(`URL: ${url}\n\nCSS Selector: \`${cssSelector}\`\n\nFrequency: ${frequency}`)
+      .setText(`URL: ${url}\n\nCSS Selector: \`${cssSelector}\`\n\nFrequency: ${frequency} ms`)
       .setColor(this.client.colors.success)
       .message;
   }

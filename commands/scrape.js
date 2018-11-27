@@ -2,7 +2,6 @@ const Command = require("../structures/Command");
 const RichMessage = require("../structures/RichMessage");
 const cheerio = require("cheerio");
 const superagent = require("superagent");
-const { messageOptions } = require("../structures/Constants");
 
 class Scrape extends Command {
   constructor(...args) {
