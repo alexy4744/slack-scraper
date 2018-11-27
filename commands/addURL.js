@@ -1,5 +1,6 @@
 const Command = require("../structures/Command");
 const RichMessage = require("../structures/RichMessage");
+const { stringToMillis } = require("../structures/Util");
 
 class AddURL extends Command {
   constructor(...args) {
@@ -38,7 +39,7 @@ class AddURL extends Command {
     if (!url || !cssSelector) {
       ctx.body = new RichMessage()
         .setTitle(`${this.client.emojis.fail}Insufficient arguments provided!`)
-        .setText(`You must provide a URL as the first parameter and a CSS selector as the second parameter!`)
+        .setText(`You must provide a URL, CSS selector and frequency in sequential order!`)
         .setColor(this.client.colors.fail)
         .message;
 
@@ -47,8 +48,7 @@ class AddURL extends Command {
 
     scraper.urls.push({
       url,
-      cssSelector,
-      frequency
+      cssSelector
     });
 
     try {
