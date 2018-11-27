@@ -1,4 +1,11 @@
 {
-  "123": "456",
-  "test": 123
+  "scraper": {
+    "urls": [
+      {
+        "url": "reddit.com",
+        "cssSelector": "#app",
+        "frequency": "15m"
+      }
+    ]
+  }
 }

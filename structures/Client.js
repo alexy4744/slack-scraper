@@ -24,16 +24,24 @@ class Client {
       filepath: "../database/settings.json"
     });
 
-    this.colors = { // Colors used in rich messages
+    this.commands = new CommandStore(this);
+    this.events = new EventStore(this);
+    this.inhibitors = new InhibitorStore(this);
+    this.members = new MemberStore(this);
+
+    /* Used in rich messages */
+    this.colors = {
       primary: "#5089DB",
       success: "#76B354",
       fail: "#DE2E43"
     };
 
-    this.commands = new CommandStore(this);
-    this.events = new EventStore(this);
-    this.inhibitors = new InhibitorStore(this);
-    this.members = new MemberStore(this);
+    this.emojis = {
+      success: "✅ ｜ ",
+      fail: "❌ ｜ ",
+      divider: " ｜ "
+    };
+    /* --------------------- */
   }
 
   static async initialize(options = {}) {

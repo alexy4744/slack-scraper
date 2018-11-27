@@ -22,7 +22,7 @@ class Command {
       return this.run(ctx, args);
     } catch (error) {
       ctx.body = new RichMessage()
-        .setTitle(`❌ ｜ Sorry, an error has occurred!`)
+        .setTitle(`${this.client.emojis.fail}Sorry, an error has occurred!`)
         .setText(`\`\`\`\n${error.message}\n\`\`\``)
         .setColor(this.client.colors.fail)
         .message;
