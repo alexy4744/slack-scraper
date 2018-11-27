@@ -33,12 +33,14 @@ class Client {
     this.colors = {
       primary: "#5089DB",
       success: "#76B354",
-      fail: "#DE2E43"
+      fail: "#DE2E43",
+      pending: "#FFAC32"
     };
 
     this.emojis = {
       success: "✅ ｜ ",
       fail: "❌ ｜ ",
+      pending: "⏳ ｜ ",
       divider: " ｜ "
     };
     /* --------------------- */
