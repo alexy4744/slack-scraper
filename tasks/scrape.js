@@ -24,6 +24,8 @@ class WebScraper extends Task {
             channel: scraper.channel,
             ...messageOptions,
             ...new RichMessage()
+              .setTitle(url.url)
+              .setTitleLink(url.url)
               .setText(data.map(c => `*${c}*`).join("\n\n"))
               .setColor(this.client.colors.primary)
               .message

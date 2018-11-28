@@ -27,6 +27,8 @@ class Util {
   }
 
   static stringToMillis(str) {
+    if (typeof str !== "string") return null;
+
     const units = {
       "years": {
         "value": 3.154e+10,
