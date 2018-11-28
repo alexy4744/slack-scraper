@@ -10,6 +10,18 @@ class JSONDatabase {
     this.cache = {};
   }
 
+  static async initalize(options = {}) {
+    const self = new JSONDatabase(options); // eslint-disable-line
+
+    try {
+      await self.fetch();
+    } catch (error) {
+      throw error;
+    }
+
+    return self;
+  }
+
   async write(what) {
     if (!isObject(what)) return Promise.reject(new Error(`Objects can only be written to JSON files!`));
 

@@ -7,6 +7,7 @@ const CommandStore = require("../stores/CommandStore");
 const EventStore = require("../stores/EventStore");
 const InhibitorStore = require("../stores/InhibitorStore");
 const MemberStore = require("../stores/MemberStore");
+const TaskStore = require("../stores/TaskStore");
 
 const Stopwatch = require("./Stopwatch");
 
@@ -20,14 +21,11 @@ class Client {
     this.web = new WebClient(this.token);
     this.rtm = new RTMClient(this.token);
 
-    this.db = new JSONDatabase({
-      filepath: "../database/settings.json"
-    });
-
     this.commands = new CommandStore(this);
     this.events = new EventStore(this);
     this.inhibitors = new InhibitorStore(this);
     this.members = new MemberStore(this);
+    this.tasks = new TaskStore(this);
 
     /* Used in rich messages */
     this.colors = {
@@ -43,7 +41,6 @@ class Client {
       pending: "⏳ ｜ ",
       divider: " ｜ "
     };
-    /* --------------------- */
   }
 
   static async initialize(options = {}) {
@@ -54,7 +51,12 @@ class Client {
       await self.commands.loadAll();
       await self.events.listenAll();
       await self.inhibitors.loadAll();
+      await self.tasks.runAll();
       await self.rtm.start();
+
+      self.db = await JSONDatabase.initalize({
+        filepath: "../database/settings.json"
+      });
 
       self.server = new Server(self, {
         ports: {

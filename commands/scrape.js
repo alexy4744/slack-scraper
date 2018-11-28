@@ -1,6 +1,6 @@
 const Command = require("../structures/Command");
 const RichMessage = require("../structures/RichMessage");
-const cheerio = require("cheerio");
+const { scrape } = require("../structures/Util");
 const superagent = require("superagent");
 
 class Scrape extends Command {
@@ -29,14 +29,11 @@ class Scrape extends Command {
       ctx.status = 200; // Tell Slack that the bot has already received the command
       ctx.body = "";
 
-      const $ = await superagent.get(url).then(res => cheerio.load(res.text));
-      const content = [];
-
-      $(cssSelector).each((index, el) => content.push($(el)[jQueryFn]())); // Loop through each element found by the css selector and push it to the array
+      const scraped = await scrape(url, cssSelector, jQueryFn);
 
       return delayedSend(new RichMessage()
         .setTitle(`${this.client.emojis.success}Here are the results from the web scrape!`)
-        .setText(`\`\`\`\n${content.join("\n")}\n\`\`\``)
+        .setText(`\`\`\`\n${scraped.join("\n")}\n\`\`\``)
         .setColor(this.client.colors.success)
         .message);
     } catch (error) {

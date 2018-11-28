@@ -14,6 +14,18 @@ class Util {
     return input.trim().replace(/^ +| +$/gm, "");
   }
 
+  static async scrape(url, cssSelector, jQueryFn) {
+    const superagent = require("superagent");
+    const cheerio = require("cheerio");
+
+    const $ = await superagent.get(url).then(res => cheerio.load(res.text));
+    const content = [];
+
+    $(cssSelector).each((index, el) => content.push($(el)[jQueryFn]())); // Loop through each element found by the css selector and push it to the array
+
+    return content;
+  }
+
   static stringToMillis(str) {
     const units = {
       "years": {
