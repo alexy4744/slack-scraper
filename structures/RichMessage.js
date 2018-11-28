@@ -131,6 +131,13 @@ class RichMessage {
 
     return this;
   }
+
+  buildError(error) {
+    this.setTitle(`❌ ｜ Sorry, an error has occurred!`);
+    this.setText(`\`\`\`\n${error}\n\`\`\``);
+    this.setColor("#5089db");
+    return this.message;
+  }
 }
 
 module.exports = RichMessage;

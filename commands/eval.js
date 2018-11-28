@@ -1,6 +1,7 @@
 /* eslint no-eval: 0 */
 
 const Command = require("../structures/Command");
+const RichMessage = require("../structures/RichMessage");
 const util = require("util");
 const superagent = require("superagent");
 
@@ -42,9 +43,7 @@ class Eval extends Command {
         "text": `Result was over 40,000 characters, output uploaded to hastebin!\n\n${url}`
       };
     } catch (error) {
-      ctx.body = {
-        "text": `Error!\n\`\`\`\n${error.stack}\n\`\`\``
-      };
+      ctx.body = new RichMessage().buildError(error.stack);
     }
   }
 }

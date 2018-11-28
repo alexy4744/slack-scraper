@@ -6,12 +6,11 @@ class Ping extends Command {
     super(...args);
   }
 
-  run(ctx) {
-    ctx.body = new RichMessage()
-      .setTitle(`🏓 ｜ Pong!`)
-      .setText(`I'm alive!`)
-      .setColor(this.client.colors.primary)
-      .message;
+  run(ctx, args) {
+    if (!args[0] || !args[0].startsWith("#")) {
+      ctx.body = new RichMessage()
+        .setTitle
+    }
   }
 }
 

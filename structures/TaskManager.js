@@ -11,6 +11,7 @@ class TaskManager extends Map {
     }
 
     if (this.has(key)) return this.get(key);
+
     this.set(key, setInterval(() => {
       fn();
       this.remove(key);

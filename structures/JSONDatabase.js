@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs-nextra");
+const merge = require("deepmerge");
 const { isObject } = require("./Util");
 
 class JSONDatabase {
@@ -46,9 +47,8 @@ class JSONDatabase {
     if (!isObject(what)) return Promise.reject(new Error(`Objects can only be written to JSON files!`));
 
     try {
-      let data = await this.fetch();
-      data = { ...data, ...what };
-      await this.write(data);
+      const data = await this.fetch();
+      await this.write(merge(data, what));
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error);

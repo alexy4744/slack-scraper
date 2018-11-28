@@ -37,11 +37,7 @@ class Scrape extends Command {
         .setColor(this.client.colors.success)
         .message);
     } catch (error) {
-      return delayedSend(new RichMessage()
-        .setTitle(`${this.client.emojis.fail}Sorry, an error has occurred!`)
-        .setText(`\`\`\`\n${error.message}\n\`\`\``)
-        .setColor(this.client.colors.fail)
-        .message);
+      return delayedSend(new RichMessage().buildError(error.message));
     }
 
     async function delayedSend(message) { // Function to send messages just in case if the response needs to take longer than 3 seconds

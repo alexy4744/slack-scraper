@@ -22,12 +22,7 @@ class AddURL extends Command {
 
         scraper = this.client.db.cache.scraper;
       } catch (error) {
-        ctx.body = new RichMessage()
-          .setTitle(`${this.client.emojis.fail}Sorry, an error has occurred!`)
-          .setText(`\`\`\`\n${error.message}\n\`\`\``)
-          .setColor(this.client.colors.fail)
-          .message;
-
+        ctx.body = new RichMessage().buildError(error.message);
         return;
       }
     }
@@ -57,11 +52,7 @@ class AddURL extends Command {
     try {
       await this.client.db.update({ scraper });
     } catch (error) {
-      ctx.body = new RichMessage()
-        .setTitle(`${this.client.emojis.fail}Sorry, an error has occurred!`)
-        .setText(`\`\`\`\n${error.message}\n\`\`\``)
-        .setColor(this.client.colors.fail)
-        .message;
+      ctx.body = new RichMessage().buildError(error.message);
 
       return;
     }

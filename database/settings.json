@@ -1,5 +1,13 @@
 {
   "scraper": {
-    "urls": []
+    "urls": [
+      {
+        "url": "https://sites.google.com/a/hstat.org/10sep1819/assignments?authuser=0",
+        "cssSelector": ".dhtgD",
+        "jQueryFn": "text",
+        "frequency": 5000
+      }
+    ],
+    "channel": "CE9V2HZC6"
   }
 }

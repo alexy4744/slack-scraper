@@ -1,6 +1,8 @@
 // TODO: It probably shouldn't just keep checking if the cache every second
 
 const Task = require("../structures/Task");
+const RichMessage = require("../structures/RichMessage");
+const { messageOptions } = require("../structures/Constants");
 const { scrape } = require("../structures/Util");
 
 class WebScraper extends Task {
@@ -12,10 +14,24 @@ class WebScraper extends Task {
 
   run() {
     const scraper = this.client.db.cache.scraper;
-    if (!scraper || (scraper && scraper.urls < 1)) return;
+    if (!scraper || !scraper.urls || !scraper.urls.length || !scraper.channel) return;
 
     for (const url of scraper.urls) {
-      this.client.tasks.manager.add(url.url, () => scrape(url.url, url.cssSelector, url.jQueryFn), url.frequency);
+      this.client.tasks.manager.add(url.url, async () => {
+        try {
+          const data = await scrape(url.url, url.cssSelector, url.jQueryFn);
+          await this.client.web.chat.postMessage({
+            channel: scraper.channel,
+            ...messageOptions,
+            ...new RichMessage()
+              .setText(data.map(c => `*${c}*`).join("\n\n"))
+              .setColor(this.client.colors.primary)
+              .message
+          });
+        } catch (error) {
+          // noop
+        }
+      }, url.frequency);
     }
   }
 }

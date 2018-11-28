@@ -3,15 +3,27 @@ const RichMessage = require("../structures/RichMessage");
 
 class SetChannel extends Command {
   constructor(...args) {
-    super(...args);
+    super(...args, {
+      permissions: 1
+    });
   }
 
-  run(ctx) {
-    ctx.body = new RichMessage()
-      .setTitle(`🏓 ｜ Pong!`)
-      .setText(`I'm alive!`)
-      .setColor(this.client.colors.primary)
-      .message;
+  async run(ctx) {
+    try {
+      await this.client.db.update({
+        scraper: {
+          channel: ctx.request.body.channel_id
+        }
+      });
+
+      ctx.body = new RichMessage()
+        .setTitle(`${this.client.emojis.success}I have successfully set this as the designated channel!`)
+        .setText(`I will now post web scrape results in this channel.`)
+        .setColor(this.client.colors.success)
+        .message;
+    } catch (error) {
+      ctx.body = new RichMessage().buildError(error.message);
+    }
   }
 }
 
