@@ -4,6 +4,7 @@ class Command {
   constructor(client, options = {}) {
     this.name = options.name || this.constructor.name || null;
     if (!this.name) throw new Error("All commands must be named via the options object or have a named constructor!");
+    else this.name = this.name.toLowerCase();
 
     this.client = client;
     this.permissions = options.permissions || 0;

@@ -5,7 +5,7 @@ const { stringToMillis } = require("../structures/Util");
 class AddURL extends Command {
   constructor(...args) {
     super(...args, {
-      permissions: 1
+      permissions: 1337
     });
   }
 
@@ -28,14 +28,13 @@ class AddURL extends Command {
     }
 
     const url = args[0];
-    const cssSelector = args[1];
+    const frequency = stringToMillis(args[1]);
     const jQueryFn = args[2];
-    const frequency = stringToMillis(args[3]);
 
-    if (!url || !cssSelector || !jQueryFn || !frequency) {
+    if (!url || !jQueryFn || !frequency) {
       ctx.body = new RichMessage()
         .setTitle(`${this.client.emojis.fail}Insufficient arguments provided!`)
-        .setText(`You must provide a URL, CSS selector, jQuery function and frequency in sequential order!`)
+        .setText(`You must provide a URL, jQuery function and frequency in sequential order!`)
         .setColor(this.client.colors.fail)
         .message;
 
@@ -44,7 +43,6 @@ class AddURL extends Command {
 
     scraper.urls.push({
       url,
-      cssSelector,
       jQueryFn,
       frequency
     });
@@ -59,7 +57,7 @@ class AddURL extends Command {
 
     ctx.body = new RichMessage()
       .setTitle(`${this.client.emojis.success}I have added a new URL to scrape!`)
-      .setText(`URL: ${url}\n\nCSS Selector: \`${cssSelector}\`\n\njQuery Function: \`${jQueryFn}\`\n\nFrequency: ${args[3]}`)
+      .setText(`URL: ${url}\n\njQuery Function: \`${jQueryFn}\`\n\nFrequency: *${args[1]}*`)
       .setColor(this.client.colors.success)
       .message;
   }

@@ -1,4 +1,4 @@
-/* A manager that handles all the tasks to prevent adding and then running duplicate tasks */
+/* A manager that handles all the tasks to prevent adding duplicate tasks */
 
 class TaskManager extends Map {
   constructor(...args) {

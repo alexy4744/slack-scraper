@@ -14,16 +14,22 @@ class Util {
     return input.trim().replace(/^ +| +$/gm, "");
   }
 
-  static async scrape(url, cssSelector, jQueryFn) {
+  static async scrape(url, jQueryFn) {
     const superagent = require("superagent");
     const cheerio = require("cheerio");
 
-    const $ = await superagent.get(url).then(res => cheerio.load(res.text));
-    const content = [];
+    try {
+      // Do not change the value of this variable since jQueryFn will use it as a reference to cheerio
+      const $ = await superagent.get(url).then(res => cheerio.load(res.text)); // eslint-disable-line
 
-    $(cssSelector).each((index, el) => content.push($(el)[jQueryFn]())); // Loop through each element found by the css selector and push it to the array
+      // Eval is OK here since technically only the owner is the one able to set a scrape url and scrape sites anyway
+      // Only way of traversing the HTML with the full potential of cheerio API without screwing up strings during string manipulation
+      const result = eval(jQueryFn); // eslint-disable-line
 
-    return content;
+      return Promise.resolve(result);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   static stringToMillis(str) {

@@ -6,19 +6,18 @@ const superagent = require("superagent");
 class Scrape extends Command {
   constructor(...args) {
     super(...args, {
-      permissions: 1
+      permissions: 1337
     });
   }
 
   async run(ctx, args) {
     const url = args[0];
-    const cssSelector = args[1];
-    const jQueryFn = args[2]; // the jQuery function to execute
+    const jQueryFn = args.slice(1).join(" "); // the jQuery function to execute
 
-    if (!url || !cssSelector || !jQueryFn) {
+    if (!url || !jQueryFn) {
       ctx.body = new RichMessage()
         .setTitle(`${this.client.emojis.fail}Insufficient parameters provided!`)
-        .setText(`You must provide a URL, CSS Selector and a jQuery function for me to scrape!`)
+        .setText(`You must provide a URL and a jQuery function for me to scrape!`)
         .setColor(this.client.colors.fail)
         .message;
 
@@ -29,11 +28,11 @@ class Scrape extends Command {
       ctx.status = 200; // Tell Slack that the bot has already received the command
       ctx.body = "";
 
-      const scraped = await scrape(url, cssSelector, jQueryFn);
+      const scraped = await scrape(url, jQueryFn);
 
       return delayedSend(new RichMessage()
         .setTitle(`${this.client.emojis.success}Here are the results from the web scrape!`)
-        .setText(`\`\`\`\n${scraped.join("\n")}\n\`\`\``)
+        .setText(`\`\`\`\n${scraped}\n\`\`\``)
         .setColor(this.client.colors.success)
         .message);
     } catch (error) {

@@ -19,7 +19,7 @@ class WebScraper extends Task {
     for (const url of scraper.urls) {
       this.client.tasks.manager.add(url.url, async () => {
         try {
-          const data = await scrape(url.url, url.cssSelector, url.jQueryFn);
+          const data = await scrape(url.url, url.jQueryFn);
           await this.client.web.chat.postMessage({
             channel: scraper.channel,
             ...messageOptions,
