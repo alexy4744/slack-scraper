@@ -6,6 +6,10 @@ class TaskManager extends Map {
   }
 
   add(key, fn, interval) {
+    if (typeof key !== "string" || typeof fn !== "function" || typeof interval !== "number") {
+      throw new Error(`'key' argument must be a string, 'fn' argument must be a function to execute and 'interval' must be a number!`);
+    }
+
     if (this.has(key)) return this.get(key);
     this.set(key, setInterval(() => {
       fn();
@@ -15,6 +19,7 @@ class TaskManager extends Map {
   }
 
   remove(key) {
+    if (typeof key !== "string") throw new Error(`You can only remove items from TaskManager by specifying the key of the item`);
     if (!this.has(key)) return this;
     clearInterval(this.get(key));
     this.delete(key);
