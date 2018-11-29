@@ -2,7 +2,6 @@
 
 const Task = require("../structures/Task");
 const RichMessage = require("../structures/RichMessage");
-const { messageOptions } = require("../structures/Constants");
 const { scrape } = require("../structures/Util");
 
 class WebScraper extends Task {
@@ -22,7 +21,7 @@ class WebScraper extends Task {
           const data = await scrape(url.url, url.jQuery);
           await this.client.web.chat.postMessage({
             channel: scraper.channel,
-            ...messageOptions,
+            ...this.client.constants.messageOptions,
             ...new RichMessage()
               .setTitle(url.url)
               .setTitleLink(url.url)

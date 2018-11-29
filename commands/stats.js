@@ -10,7 +10,7 @@ class Stats extends Command {
 
   run(ctx) {
     ctx.body = new RichMessage()
-      .setColor(this.client.colors.primary)
+      .setColor(this.client.constants.colors.primary)
       .setTitle("🖥 ｜ Statistics")
       .setText(normalizeSpaces(`
         Memory Usage: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${os.totalmem} MB*\n

@@ -17,9 +17,9 @@ class SetChannel extends Command {
       });
 
       ctx.body = new RichMessage()
-        .setTitle(`${this.client.emojis.success}I have successfully set this as the designated channel!`)
+        .setTitle(`${this.client.constants.emojis.success}I have successfully set this as the designated channel!`)
         .setText(`I will now post web scrape results in this channel.`)
-        .setColor(this.client.colors.success)
+        .setColor(this.client.constants.colors.success)
         .message;
     } catch (error) {
       ctx.body = new RichMessage().buildError(error.message);

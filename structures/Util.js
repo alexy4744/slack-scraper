@@ -11,7 +11,7 @@ class Util {
   /* Make consistent spaces by removing multiple unnecessary spaces i.e. double space */
   // https://stackoverflow.com/questions/8927844/trimming-spaces-while-preserving-line-breaks
   static normalizeSpaces(input) {
-    return input.trim().replace(/^ +| +$/gm, "");
+    return typeof input === "string" ? input.trim().replace(/^ +| +$/gm, "") : null;
   }
 
   static async scrape(url, jQueryFn) {

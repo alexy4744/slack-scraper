@@ -1,5 +1,6 @@
 /* A class to construct a fancy message easily with chainable methods */
 // https://api.slack.com/docs/message-attachments
+const { colors, emojis } = require("./Constants");
 
 class RichMessage {
   constructor() {
@@ -133,9 +134,9 @@ class RichMessage {
   }
 
   buildError(error) {
-    this.setTitle(`❌ ｜ Sorry, an error has occurred!`);
+    this.setTitle(`${emojis.fail}Sorry, an error has occurred!`);
     this.setText(`\`\`\`\n${error}\n\`\`\``);
-    this.setColor("#5089db");
+    this.setColor(colors.fail);
     return this.message;
   }
 }

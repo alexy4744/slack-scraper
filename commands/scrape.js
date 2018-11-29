@@ -16,9 +16,9 @@ class Scrape extends Command {
 
     if (!url || !jQueryFn) {
       ctx.body = new RichMessage()
-        .setTitle(`${this.client.emojis.fail}Insufficient parameters provided!`)
+        .setTitle(`${this.client.constants.emojis.fail}Insufficient parameters provided!`)
         .setText(`You must provide a URL and a jQuery function for me to scrape!`)
-        .setColor(this.client.colors.fail)
+        .setColor(this.client.constants.colors.fail)
         .message;
 
       return;
@@ -31,9 +31,9 @@ class Scrape extends Command {
       const scraped = await scrape(url, jQueryFn);
 
       return delayedSend(new RichMessage()
-        .setTitle(`${this.client.emojis.success}Here are the results from the web scrape!`)
+        .setTitle(`${this.client.constants.emojis.success}Here are the results from the web scrape!`)
         .setText(`\`\`\`\n${scraped}\n\`\`\``)
-        .setColor(this.client.colors.success)
+        .setColor(this.client.constants.colors.success)
         .message);
     } catch (error) {
       return delayedSend(new RichMessage().buildError(error.message));

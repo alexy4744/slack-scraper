@@ -21,7 +21,7 @@ class Reload extends Command {
     }
 
     ctx.body = new RichMessage()
-      .setTitle(`${this.client.emojis.success}I have successfully reloaded ${args[0]}`)
+      .setTitle(`${this.client.constants.emojis.success}I have successfully reloaded ${args[0]}`)
       .message;
   }
 }

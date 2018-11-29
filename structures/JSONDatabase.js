@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs-nextra");
-const merge = require("merge-deep");
+const merge = require("deepmerge");
 const { isObject } = require("./Util");
 const EventEmitter = require("events");
 

@@ -10,6 +10,8 @@ const TaskStore = require("../stores/TaskStore");
 
 const Stopwatch = require("./Stopwatch");
 
+const constants = require("./Constants");
+
 class Client {
   constructor(options = {}) {
     this.token = process.env.SLACK_TOKEN || options.token || null;
@@ -17,6 +19,8 @@ class Client {
 
     this.owner = process.env.OWNER || options.owner || null;
     if (!this.owner) throw new Error(`You must specify a user id as your environment variable or pass in a user id via the options object in the Client constructor!`);
+
+    this.constants = constants;
 
     this.web = new WebClient(this.token);
     this.rtm = new RTMClient(this.token);
@@ -26,21 +30,6 @@ class Client {
     this.inhibitors = new InhibitorStore(this);
     this.members = new MemberStore(this);
     this.tasks = new TaskStore(this);
-
-    /* Used in rich messages */
-    this.colors = {
-      primary: "#5089DB",
-      success: "#76B354",
-      fail: "#DE2E43",
-      pending: "#FFAC32"
-    };
-
-    this.emojis = {
-      success: "✅ ｜ ",
-      fail: "❌ ｜ ",
-      pending: "⏳ ｜ ",
-      divider: " ｜ "
-    };
   }
 
   static async initialize(options = {}) {

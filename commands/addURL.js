@@ -33,9 +33,9 @@ class AddURL extends Command {
 
     if (!url || !jQuery || !frequency) {
       ctx.body = new RichMessage()
-        .setTitle(`${this.client.emojis.fail}Insufficient arguments provided!`)
-        .setText(`You must provide a URL, jQuery function and frequency in sequential order!`)
-        .setColor(this.client.colors.fail)
+        .setTitle(`${this.client.constants.emojis.fail}Insufficient arguments provided!`)
+        .setText(`You are must include the URL, frequency to scrape and the jQuery functions to run as arguments!`)
+        .setColor(this.client.constants.colors.fail)
         .message;
 
       return;
@@ -56,9 +56,9 @@ class AddURL extends Command {
     }
 
     ctx.body = new RichMessage()
-      .setTitle(`${this.client.emojis.success}I have added a new URL to scrape!`)
+      .setTitle(`${this.client.constants.emojis.success}I have added a new URL to scrape!`)
       .setText(`URL: ${url}\n\nFrequency: *${args[1]}*\n\njQuery Function: \`\`\`${jQuery}\`\`\``)
-      .setColor(this.client.colors.success)
+      .setColor(this.client.constants.colors.success)
       .message;
   }
 }
