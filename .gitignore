@@ -3,3 +3,4 @@ ngrok.exe
 .eslintrc.json
 certs/
 node_modules/
+startNgrok.bat
