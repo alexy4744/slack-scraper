@@ -19,19 +19,19 @@ class WebScraper extends Task {
     for (const url of scraper.urls) {
       this.client.tasks.manager.add(url.url, async () => {
         try {
-          const data = await scrape(url.url, url.jQueryFn);
+          const data = await scrape(url.url, url.jQuery);
           await this.client.web.chat.postMessage({
             channel: scraper.channel,
             ...messageOptions,
             ...new RichMessage()
               .setTitle(url.url)
               .setTitleLink(url.url)
-              .setText(data.map(c => `*${c}*`).join("\n\n"))
+              .setText(data)
               .setColor(this.client.colors.primary)
               .message
           });
         } catch (error) {
-          // noop
+          throw error;
         }
       }, url.frequency);
     }

@@ -2,17 +2,20 @@ const path = require("path");
 const fs = require("fs-nextra");
 const merge = require("deepmerge");
 const { isObject } = require("./Util");
+const EventEmitter = require("events");
 
-class JSONDatabase {
-  constructor(options = {}) {
+class JSONDatabase extends EventEmitter {
+  constructor(client, options = {}) {
+    super();
     if (!options.filepath) throw new Error(`You must provide a file path for me to read/write from!`);
 
+    this.client = client;
     this.filepath = path.join(__dirname, options.filepath);
     this.cache = {};
   }
 
-  static async initalize(options = {}) {
-    const self = new JSONDatabase(options); // eslint-disable-line
+  static async initalize(client, options = {}) {
+    const self = new JSONDatabase(client, options); // eslint-disable-line
 
     try {
       await self.fetch();
@@ -30,6 +33,11 @@ class JSONDatabase {
       await fs.writeJSONAtomic(this.filepath, what, {
         spaces: 2
       });
+
+      this.cache = what;
+      this.emit("write", this.cache);
+
+      return Promise.resolve(this);
     } catch (error) {
       return Promise.reject(error);
     }

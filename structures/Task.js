@@ -7,7 +7,9 @@ class Task {
     if (!this.name) throw new Error("All commands must be named via the options object or have a named constructor!");
 
     this.client = client;
-    this.interval = options.interval || 5000;
+    this.interval = options.interval || 5000; // How frequent the interval should run
+    this.running = false;
+    this._interval = null; // Holds the interval function, useful for clearing it later
     // this.forked = options.forked || false; /* TODO */
   }
 
@@ -15,8 +17,17 @@ class Task {
     throw new Error(`No run method found for ${this.name}`);
   }
 
+  clear() {
+    clearInterval(this._interval);
+    this._interval = null;
+    this.running = false;
+    return this;
+  }
+
   _run() {
-    setInterval(() => this.run(), this.interval);
+    this.running = true;
+    this._interval = setInterval(() => this.run(), this.interval);
+    return this;
   }
 }
 

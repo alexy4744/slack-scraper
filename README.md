@@ -6,7 +6,7 @@ It makes use of [Koa](https://koajs.com/) to handle incoming [slash commands](ht
 
 Cheerio functions are ran with **eval()**, so be careful of what you place as your function parameters, you can always test with the `/scrape` command first before running `/addurl` to save it as a task to ensure the result doesn't have anything that shouldn't be there. Only the bot owner can run these commands btw.
 
-Eval is used so that you can get the full potential of the Cheerio API, rather than doing some crazy string manipulation that might lose out on features or it doesn't get parsed correctly. As long as you know jQuery, you can tell the bot to scrape whatever you want.
+Eval is used so that you can get the full potential of the Cheerio API, rather than doing some crazy string manipulation that might lose out on features or it doesn't get parsed correctly. As long as you know JavaScript and jQuery, you can tell the bot to scrape whatever you want with whatever format you want it to be outputted.
 
 All commands responses are sent as ephemeral messages, **except** the web scraping task, those are sent to the channel which is why you need to be careful of what the result returns.
 

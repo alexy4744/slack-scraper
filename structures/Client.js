@@ -54,9 +54,10 @@ class Client {
       await self.tasks.runAll();
       await self.rtm.start();
 
-      self.db = await JSONDatabase.initalize({
+      self.db = await JSONDatabase.initalize(self, {
         filepath: "../database/settings.json"
       });
+
 
       self.server = new Server(self, {
         ports: {
