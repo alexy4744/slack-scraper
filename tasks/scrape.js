@@ -17,7 +17,7 @@ class WebScraper extends Task {
     if (!scraper || !scraper.urls || !scraper.urls.length || !scraper.channel) return;
 
     for (const url of scraper.urls) {
-      this.client.tasks.manager.add(url.url, async () => {
+      this.client.tasks.manager.add(url.id, async () => {
         try {
           const data = await scrape(url.url, url.jQuery);
           await this.client.web.chat.postMessage({

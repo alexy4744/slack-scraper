@@ -1,1 +1,18 @@
-{}
+{
+  "scraper": {
+    "urls": [
+      {
+        "url": "https://sites.google.com/a/hstat.org/11sep1819/assignments?authuser=0",
+        "jQuery": "const content = [];\r\n\r\n$(\".zfr3Q\").each((index, el) => content.push($(el).text())); content;",
+        "frequency": 15000,
+        "id": "1543525967726"
+      },
+      {
+        "url": "https://sites.google.com/a/hstat.org/10sep1819/assignments?authuser=0",
+        "jQuery": "const content = [];\r\n\r\n$(\".zfr3Q\").each((index, el) => content.push($(el).text())); content;",
+        "frequency": 15000,
+        "id": "1543525972698"
+      }
+    ]
+  }
+}

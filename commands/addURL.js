@@ -1,6 +1,6 @@
 const Command = require("../structures/Command");
 const RichMessage = require("../structures/RichMessage");
-const { stringToMillis } = require("../structures/Util");
+const { stringToMillis, normalizeSpaces } = require("../structures/Util");
 
 class AddURL extends Command {
   constructor(...args) {
@@ -29,7 +29,7 @@ class AddURL extends Command {
 
     const url = args[0];
     const frequency = stringToMillis(args[1]);
-    const jQuery = args.slice(2).join(" ");
+    const jQuery = normalizeSpaces(args.slice(2).join(" "));
 
     if (!url || !jQuery || !frequency) {
       ctx.body = new RichMessage()
@@ -44,14 +44,14 @@ class AddURL extends Command {
     scraper.urls.push({
       url,
       jQuery,
-      frequency
+      frequency,
+      id: String(Date.now()) // Just used as a unique identifier
     });
 
     try {
-      await this.client.db.update({ scraper });
+      await this.client.db.write({ scraper });
     } catch (error) {
       ctx.body = new RichMessage().buildError(error.message);
-
       return;
     }
 
