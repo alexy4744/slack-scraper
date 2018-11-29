@@ -1,6 +1,3 @@
-
-const fs = require("fs-nextra");
-
 const { RTMClient, WebClient } = require("@slack/client");
 const Server = require("./Server");
 const JSONDatabase = require("./JSONDatabase");
@@ -14,11 +11,12 @@ const TaskStore = require("../stores/TaskStore");
 const Stopwatch = require("./Stopwatch");
 
 class Client {
-  constructor(options) {
-    if (!options.token) throw new Error(`You must pass in a token via the options object in the Client constructor!`);
+  constructor(options = {}) {
+    this.token = process.env.SLACK_TOKEN || options.token || null;
+    if (!this.token) throw new Error(`You must specify a token as your environment variable or pass in a token via the options object in the Client constructor!`);
 
-    this.token = options.token;
-    this.owner = options.owner;
+    this.owner = process.env.OWNER || options.owner || null;
+    if (!this.owner) throw new Error(`You must specify a user id as your environment variable or pass in a user id via the options object in the Client constructor!`);
 
     this.web = new WebClient(this.token);
     this.rtm = new RTMClient(this.token);
@@ -62,8 +60,8 @@ class Client {
 
       self.server = new Server(self, {
         ports: {
-          http: 80,
-          https: 443
+          http: process.env.HTTP || 80,
+          https: process.env.HTTPS || 443
         }
       });
 
