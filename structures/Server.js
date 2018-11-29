@@ -24,10 +24,11 @@ class Server extends Koa {
     this._loadCommandRoutes();
     this.use(this.commands.routes());
 
-    http.createServer(this.callback()).listen(this.ports.http, () => console.log(`🌎  Server started on port ${this.ports.http} (HTTP)`));
+    http.createServer(this.callback()).listen(this.ports.http, () => console.log(`🌎  Server started on port \x1b[34m${this.ports.http}\x1b[0m (HTTP)`));
 
-    if (Array.isArray(this.certificates)) {
-      https.createServer(this.certificates, this.callback()).listen(this.ports.https, () => console.log(`🌎  Server started on port ${this.ports.https} (HTTPS)`));
+    if (this.certificates) {
+      if (!this.certificates.key || !this.certificates.cert) throw new Error(`You must provide both the key and the certificate in order to run the server as HTTPS!`);
+      else https.createServer(this.certificates, this.callback()).listen(this.ports.https, () => console.log(`🌎  Server started on port \x1b[34m${this.ports.https}\x1b[0m (HTTPS)`));
     }
   }
 

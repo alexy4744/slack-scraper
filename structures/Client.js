@@ -1,4 +1,6 @@
 
+const fs = require("fs-nextra");
+
 const { RTMClient, WebClient } = require("@slack/client");
 const Server = require("./Server");
 const JSONDatabase = require("./JSONDatabase");
@@ -58,10 +60,10 @@ class Client {
         filepath: "../database/settings.json"
       });
 
-
       self.server = new Server(self, {
         ports: {
-          http: 80
+          http: 80,
+          https: 443
         }
       });
 
