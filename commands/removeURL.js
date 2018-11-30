@@ -50,7 +50,8 @@ class RemoveURL extends Command {
 
     if (!found) {
       ctx.body = new RichMessage()
-        .setTitle(`${this.client.constants.emojis.fail}Could not find "${url}" in the database!`)
+        .setTitle(`${this.client.constants.emojis.fail}Could not find ${url} in the database!`)
+        .setColor(this.client.constats.colors.fail)
         .message;
 
       return;
